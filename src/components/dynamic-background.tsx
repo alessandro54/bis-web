@@ -1,28 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { getWowClassBySlug } from "@/lib/wow/classes";
 import type { WowClassSlug } from "@/config/wow/classes";
 import { useHoverSlug } from "./wow/hover-provider";
-
-const DEFAULT_BG = "#ec4899";
 
 export default function DynamicBackground() {
   const { slug: hoverSlug } = useHoverSlug();
   const pathname = usePathname();
 
-  const [baseSlug, setBaseSlug] = useState<WowClassSlug | null>(null);
-
-  useEffect(() => {
-    const segments = pathname.split("/").filter(Boolean);
-    const first = segments[0] as WowClassSlug | undefined;
-    setBaseSlug(first ?? null);
-  }, [pathname]);
-
+  const segments = pathname.split("/").filter(Boolean);
+  const baseSlug = (segments[0] as WowClassSlug | undefined) ?? null;
   const activeSlug = hoverSlug ?? baseSlug;
-  const cls = activeSlug ? getWowClassBySlug(activeSlug) : null;
-  const background = cls?.color ?? DEFAULT_BG;
+  const background = activeSlug ? `var(--color-class-${activeSlug})` : "oklch(0.7 0.15 340)";
 
   return (
     <div

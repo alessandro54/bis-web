@@ -6,10 +6,10 @@ import {
   BreadcrumbSeparator,
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb"
-import { SidebarTrigger } from "@/components/ui/sidebar"
-import { Separator } from "@/components/ui/separator"
 import { WOW_CLASSES } from "@/config/wow/classes"
 import { BracketSelector } from "@/components/pvp/bracket-selector"
+import { PageHeader } from "@/components/page-header"
+import { SpecHeading } from "@/components/pvp/spec-heading"
 import { BracketBars } from "@/components/pvp/bracket-bars"
 import { fetchItems, fetchEnchants, fetchGems, type MetaItem, type MetaEnchant, type MetaGem } from "@/lib/api"
 import { notFound } from "next/navigation"
@@ -92,9 +92,9 @@ export default async function SpecPage({ params }: PageProps) {
 
   return (
     <>
-      <header className="bg-background sticky top-0 z-20 flex shrink-0 items-center gap-2 border-b p-4 h-[60px]">
-        <SidebarTrigger className="-ml-1" />
-        <Separator orientation="vertical" className="mr-2 data-[orientation=vertical]:h-4" />
+      <PageHeader
+        centerSlot={<BracketSelector classSlug={cls.slug} specSlug={specSlug} currentBracket={bracket} />}
+      >
         <Breadcrumb className="flex-1 min-w-0">
           <BreadcrumbList>
             <BreadcrumbItem className="hidden md:block">
@@ -110,22 +110,16 @@ export default async function SpecPage({ params }: PageProps) {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <BracketSelector classSlug={classSlug} specSlug={specSlug} currentBracket={bracket} defaultColor={cls.color} />
-      </header>
+      </PageHeader>
 
       <div className="animate-page-in mx-auto max-w-5xl space-y-8 overflow-auto" style={{ height: "calc(100vh - 60px)" }}>
         <div className="flex items-center gap-3 sticky top-0 z-10 bg-background px-6 py-3">
           <Image src={spec.iconUrl} alt={specSlug} width={40} height={40} className="rounded-full" />
-          <div>
-        <h1 className="text-2xl font-bold capitalize" style={{ color: cls.color }}>
-          {cls.name} — {specSlug}
-        </h1>
-        <p className="text-sm text-muted-foreground capitalize">{bracket} · PvP</p>
-          </div>
+          <SpecHeading className={cls.name} classSlug={cls.slug} specSlug={specSlug} bracket={bracket} />
         </div>
         <div className="px-6">
         <BracketBars
-          defaultColor={cls.color}
+          classSlug={cls.slug}
           itemGroups={itemGroups}
           enchantGroups={enchantGroups}
           gemGroups={gemGroups}

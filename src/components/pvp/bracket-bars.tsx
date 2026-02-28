@@ -1,7 +1,7 @@
 "use client"
 
-import { useHoverSlug } from "@/components/wow/hover-provider"
-import { getWowClassBySlug } from "@/lib/wow/classes"
+import { useActiveColor } from "@/hooks/use-active-color"
+import type { WowClassSlug } from "@/config/wow/classes"
 import type { MetaItem, MetaEnchant, MetaGem } from "@/lib/api"
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip"
 
@@ -17,7 +17,6 @@ const QUALITY_COLORS: Record<string, string> = {
   EPIC: "#a335ee",
   RARE: "#0070dd",
   UNCOMMON: "#1eff00",
-  COMMON: "#ffffff",
   POOR: "#9d9d9d",
 }
 
@@ -29,17 +28,29 @@ function formatSocketType(type: string): string {
   return type.charAt(0).toUpperCase() + type.slice(1).toLowerCase()
 }
 
-const STAT_META: Record<string, { label: string; color: string }> = {
-  HASTE_RATING:                  { label: "Haste",       color: "#fef08a" },
-  CRIT_RATING:                   { label: "Crit",        color: "#ff6040" },
-  MASTERY_RATING:                { label: "Mastery",     color: "#c4b5fd" },
-  VERSATILITY:                   { label: "Versatility", color: "#38bdf8" },
+const STAT_LABELS: Record<string, string> = {
+  HASTE_RATING:                  "Haste",
+  CRITICAL_STRIKE_RATING:        "Crit",
+  CRIT_RATING:                   "Crit",
+  MASTERY_RATING:                "Mastery",
+  VERSATILITY_DAMAGE_DONE:       "Versatility",
+  VERSATILITY_DAMAGE_DONE_PCT:   "Versatility",
+  VERSATILITY:                   "Versatility",
 }
 
-function statMeta(stat: string): { label: string; color?: string } {
-  return STAT_META[stat] ?? {
-    label: stat.split("_").map((w) => w.charAt(0) + w.slice(1).toLowerCase()).join(" "),
-  }
+const STAT_COLOR_VARS: Record<string, string> = {
+  HASTE_RATING:                "var(--color-stat-haste)",
+  CRITICAL_STRIKE_RATING:      "var(--color-stat-crit)",
+  CRIT_RATING:                 "var(--color-stat-crit)",
+  MASTERY_RATING:              "var(--color-stat-mastery)",
+  VERSATILITY_DAMAGE_DONE:     "var(--color-stat-versatility)",
+  VERSATILITY_DAMAGE_DONE_PCT: "var(--color-stat-versatility)",
+  VERSATILITY:                 "var(--color-stat-versatility)",
+}
+
+function getStatMeta(stat: string): { label: string; color?: string } {
+  const label = STAT_LABELS[stat] ?? stat.split("_").map((w) => w.charAt(0) + w.slice(1).toLowerCase()).join(" ")
+  return { label, color: STAT_COLOR_VARS[stat] }
 }
 
 function isReshiiWraps(name: string | null | undefined): boolean {
@@ -51,16 +62,15 @@ type EnchantGroup = { slot: string; entries: MetaEnchant[] }
 type GemGroup = { socketType: string; entries: MetaGem[] }
 
 type Props = {
-  defaultColor: string
+  classSlug: WowClassSlug
   itemGroups: ItemGroup[]
   enchantGroups: EnchantGroup[]
   gemGroups: GemGroup[]
   fiberGems: MetaGem[]
 }
 
-export function BracketBars({ defaultColor, itemGroups, enchantGroups, gemGroups, fiberGems }: Props) {
-  const { slug: hoverSlug } = useHoverSlug()
-  const activeColor = hoverSlug ? (getWowClassBySlug(hoverSlug)?.color ?? defaultColor) : defaultColor
+export function BracketBars({ classSlug, itemGroups, enchantGroups, gemGroups, fiberGems }: Props) {
+  const activeColor = useActiveColor(classSlug)
 
   return (
     <TooltipProvider>
@@ -81,15 +91,15 @@ export function BracketBars({ defaultColor, itemGroups, enchantGroups, gemGroups
                     {entry.item.icon_url && (
                       <img src={entry.item.icon_url} alt={entry.item.name} width={20} height={20} className="rounded shrink-0" />
                     )}
-                    <span className="text-xs font-medium truncate flex-1" style={{ color: QUALITY_COLORS[entry.item.quality] ?? "#ffffff" }}>
+                    <span className="text-xs font-medium truncate flex-1" style={{ color: QUALITY_COLORS[entry.item.quality] }}>
                       {entry.item.name}
                     </span>
                     {entry.crafted && (
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <span
-                            className="text-[10px] font-semibold px-1.5 py-0.5 rounded shrink-0 cursor-default transition-colors duration-700"
-                            style={{ color: activeColor, backgroundColor: `${activeColor}22`, borderWidth: 1, borderStyle: "solid", borderColor: `${activeColor}66` }}
+                            className="class-pill text-[10px] font-semibold px-1.5 py-0.5 rounded shrink-0 cursor-default"
+                            style={{ "--pill-color": activeColor } as React.CSSProperties}
                           >
                             CRAFTED
                           </span>
@@ -98,7 +108,7 @@ export function BracketBars({ defaultColor, itemGroups, enchantGroups, gemGroups
                           <div className="flex items-center gap-1.5">
                             <span className="text-xs text-muted-foreground">Top stats:</span>
                             {entry.top_crafting_stats.map((stat) => {
-                              const { label, color } = statMeta(stat)
+                              const { label, color } = getStatMeta(stat)
                               return (
                                 <span key={stat} className="text-xs font-semibold" style={{ color: color ?? "inherit" }}>
                                   {label}
@@ -113,8 +123,8 @@ export function BracketBars({ defaultColor, itemGroups, enchantGroups, gemGroups
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <span
-                            className="text-[10px] font-semibold px-1.5 py-0.5 rounded shrink-0 cursor-default transition-colors duration-700"
-                            style={{ color: activeColor, backgroundColor: `${activeColor}22`, borderWidth: 1, borderStyle: "solid", borderColor: `${activeColor}66` }}
+                            className="class-pill text-[10px] font-semibold px-1.5 py-0.5 rounded shrink-0 cursor-default"
+                            style={{ "--pill-color": activeColor } as React.CSSProperties}
                           >
                             {fiberGems[0].item.name}
                           </span>
@@ -186,7 +196,7 @@ export function BracketBars({ defaultColor, itemGroups, enchantGroups, gemGroups
                       {entry.item.icon_url && (
                         <img src={entry.item.icon_url} alt={entry.item.name} width={20} height={20} className="rounded shrink-0" />
                       )}
-                      <span className="text-xs font-medium truncate flex-1" style={{ color: QUALITY_COLORS[entry.item.quality] ?? "#ffffff" }}>
+                      <span className="text-xs font-medium truncate flex-1" style={{ color: QUALITY_COLORS[entry.item.quality] }}>
                         {entry.item.name}
                       </span>
                       <span className="text-xs text-muted-foreground shrink-0 font-mono">{entry.usage_pct.toFixed(1)}%</span>

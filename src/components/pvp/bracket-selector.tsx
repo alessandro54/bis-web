@@ -2,19 +2,17 @@
 
 import Link from "next/link"
 import { BRACKETS } from "@/config/wow/brackets"
-import { useHoverSlug } from "@/components/wow/hover-provider"
-import { getWowClassBySlug } from "@/lib/wow/classes"
+import { useActiveColor } from "@/hooks/use-active-color"
+import type { WowClassSlug } from "@/config/wow/classes"
 
 type Props = {
-  classSlug: string
+  classSlug: WowClassSlug
   specSlug: string
   currentBracket: string
-  defaultColor: string
 }
 
-export function BracketSelector({ classSlug, specSlug, currentBracket, defaultColor }: Props) {
-  const { slug: hoverSlug } = useHoverSlug()
-  const activeColor = hoverSlug ? (getWowClassBySlug(hoverSlug)?.color ?? defaultColor) : defaultColor
+export function BracketSelector({ classSlug, specSlug, currentBracket }: Props) {
+  const activeColor = useActiveColor(classSlug)
 
   return (
     <div className="flex gap-1">
@@ -24,12 +22,8 @@ export function BracketSelector({ classSlug, specSlug, currentBracket, defaultCo
           <Link
             key={b.slug}
             href={`/${classSlug}/${specSlug}/pvp/${b.slug}`}
-            className="rounded px-2.5 py-1 text-xs font-medium transition-colors duration-700"
-            style={
-              isActive
-                ? { color: activeColor, backgroundColor: `${activeColor}22`, borderWidth: 1, borderStyle: "solid", borderColor: `${activeColor}66` }
-                : { color: "var(--muted-foreground)" }
-            }
+            className={`rounded px-2.5 py-1 text-xs font-medium transition-colors duration-700 ${isActive ? "class-pill" : "bracket-inactive"}`}
+            style={{ "--pill-color": activeColor } as React.CSSProperties}
           >
             {b.label}
           </Link>

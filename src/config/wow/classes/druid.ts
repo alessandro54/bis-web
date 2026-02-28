@@ -24,7 +24,7 @@ const DruidConfig: WowClassConfig = {
       id: 104,
       name: "guardian",
       url: "/druid/guardian",
-      iconUrl: "https://render.worldofwarcraft.com/us/icons/56/ability_druid_bearform.jpg",
+      iconUrl: "https://render.worldofwarcraft.com/us/icons/56/ability_racial_bearform.jpg",
     },
     {
       id: 105,

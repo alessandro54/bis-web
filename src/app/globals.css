@@ -130,6 +130,76 @@
   --sidebar-ring: oklch(0.439 0 0);
 }
 
+:root {
+/* Darkened for contrast against white */
+/* Classes — Lightness dropped to ~0.45-0.55 for readability */
+  --color-class-death-knight: oklch(0.48 0.1969 19.54);
+  --color-class-demon-hunter: oklch(0.50 0.2299 316);
+  --color-class-druid:        oklch(0.52 0.1875 50.86);
+  --color-class-evoker:       oklch(0.48 0.0942 176.45);
+  --color-class-hunter:       oklch(0.50 0.1329 127.86);
+  --color-class-mage:         oklch(0.55 0.1239 219.65);
+  --color-class-monk:         oklch(0.52 0.2142 155.73);
+  --color-class-paladin:      oklch(0.58 0.1373 353.11);
+  --color-class-priest:       oklch(0.45 0 0);          /* Shifted from white to slate gray */
+  --color-class-rogue:        oklch(0.60 0.1591 104.81);
+  --color-class-shaman:       oklch(0.48 0.1869 255.57);
+  --color-class-warlock:      oklch(0.52 0.1488 281.19);
+  --color-class-warrior:      oklch(0.50 0.0802 67.87);
+
+  /* Stats */
+  --color-stat-haste:         oklch(0.60 0.18 98);
+  --color-stat-crit:          oklch(0.55 0.22 35);
+  --color-stat-mastery:       oklch(0.55 0.15 295);
+  --color-stat-versatility:   oklch(0.55 0.14 225);
+}
+
+/* WoW Class Colors — dark mode */
+.dark {
+  --color-class-death-knight: oklch(0.5308 0.1969 19.54);
+  --color-class-demon-hunter: oklch(0.5507 0.2299 316);
+  --color-class-druid:        oklch(0.7261 0.1875 50.86);
+  --color-class-evoker:       oklch(0.6017 0.0942 176.45);
+  --color-class-hunter:       oklch(0.8158 0.1329 127.86);
+  --color-class-mage:         oklch(0.7725 0.1239 219.65);
+  --color-class-monk:         oklch(0.879 0.214256 155.7323);
+  --color-class-paladin:      oklch(0.765  0.1373 353.11);
+  --color-class-priest:       oklch(1 0 0);
+  --color-class-rogue:        oklch(0.95 0.1591 104.81);
+  --color-class-shaman:       oklch(0.5563 0.1869 255.57);
+  --color-class-warlock:      oklch(0.6711 0.1488 281.19);
+  --color-class-warrior:      oklch(0.7188 0.0802 67.87);
+
+  --color-stat-haste:         oklch(0.96 0.18  98);
+  --color-stat-crit:          oklch(0.68 0.22  35);
+  --color-stat-mastery:       oklch(0.78 0.15 295);
+  --color-stat-versatility:   oklch(0.75 0.14 225);
+}
+
+/* Class-colored pill — set --pill-color on the element */
+.class-pill {
+  color: var(--pill-color);
+  background-color: oklch(from var(--pill-color) l c h / 0.13);
+  border: 1px solid oklch(from var(--pill-color) l c h / 0.4);
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.class-pill:hover {
+  background-color: oklch(from var(--pill-color) l c h / 0.28);
+  border-color: oklch(from var(--pill-color) l c h / 0.7);
+}
+
+/* Inactive bracket selector button */
+.bracket-inactive {
+  color: var(--muted-foreground);
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.bracket-inactive:hover {
+  color: var(--pill-color);
+  background-color: oklch(from var(--pill-color) l c h / 0.08);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

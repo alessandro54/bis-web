@@ -7,9 +7,8 @@ import {
     BreadcrumbSeparator,
     BreadcrumbPage
 } from "@/components/ui/breadcrumb";
-import {SidebarTrigger} from "@/components/ui/sidebar";
 import {WOW_CLASSES, type WowClassSlug, WowClassSpecSlug} from "@/config/wow/classes";
-import {Separator} from "@radix-ui/react-separator";
+import {PageHeader} from "@/components/page-header";
 import type {Metadata} from "next";
 
 type Bracket =
@@ -83,12 +82,7 @@ export default async function PvpBracketPage({params, searchParams}: PageProps) 
 
     return (
         <>
-            <header className="bg-background sticky top-0 flex shrink-0 items-center gap-2 border-b p-4 h-[60px]">
-                <SidebarTrigger className="-ml-1"/>
-                <Separator
-                    orientation="vertical"
-                    className="mr-2 data-[orientation=vertical]:h-4"
-                />
+            <PageHeader>
                 <Breadcrumb>
                     <BreadcrumbList>
                         <BreadcrumbItem className="hidden md:block">
@@ -108,7 +102,7 @@ export default async function PvpBracketPage({params, searchParams}: PageProps) 
                         </BreadcrumbItem>
                     </BreadcrumbList>
                 </Breadcrumb>
-            </header>
+            </PageHeader>
             <section className="mx-auto max-w-6xl space-y-4 p-4 flex flex-col flex-1 min-h-[calc(100vh-60px)]">
                 <h1 className="text-3xl font-bold">
                     PvP meta – {bracket} {role.toUpperCase()}
