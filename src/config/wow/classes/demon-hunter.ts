@@ -18,7 +18,13 @@ const DemonHunterConfig: WowClassConfig = {
       id: 581,
       name: "vengeance",
       url: "/demon-hunter/vengeance",
-      iconUrl: "https://render.worldofwarcraft.com/us/icons/56/spell_demonhunter_spectank.jpg",
+      iconUrl: "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_spectank.jpg",
+    },
+    {
+      id: 1480,
+      name: "devourer",
+      url: "/demon-hunter/devourer",
+      iconUrl: "https://render.worldofwarcraft.com/us/icons/56/classicon_demonhunter_void.jpg",
     },
   ],
 }

@@ -18,7 +18,7 @@ export type WowClassSlug = "death-knight" | "demon-hunter" | "druid"
 
 export type WowClassSpecSlug =
   | "frost" | "unholy" | "blood"
-  | "havoc" | "vengeance"
+  | "havoc" | "vengeance" | "devourer"
   | "balance" | "feral" | "guardian" | "restoration"
   | "beast-mastery" | "marksmanship" | "survival"
   | "arcane" | "fire" | "frost"

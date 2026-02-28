@@ -5,6 +5,7 @@ export type NavMainItem = {
   title: string;
   url: string;
   slug: WowClassSlug;
+  color: string;
   iconUrl: string;
   items: {
     id: number;
@@ -22,6 +23,7 @@ export const navMain: NavMain = WOW_CLASSES.map((cls: WowClassConfig) => ({
   slug: cls.slug,
   url: `/${cls.slug}`,
   iconUrl: cls.iconUrl,
+  color: cls.color,
   items: cls.specs.map((spec) => ({
     id: spec.id,
     title: spec.name,
