@@ -47,7 +47,12 @@ export function BgCanvasInner({ color }: { color?: string }) {
   // the cheap CSS fallback; everyone else upgrades when convenient.
   useEffect(() => {
     if (typeof window === "undefined") return
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+    if (
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return
+    }
 
     const ric = (
       window as Window & {
