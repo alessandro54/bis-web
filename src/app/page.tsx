@@ -1,8 +1,15 @@
 import { Suspense } from "react"
+import dynamic from "next/dynamic"
 import { LazySection } from "@/components/atoms/lazy-section"
 import { ScrollHint } from "@/features/home/components/scroll-hint"
-import { HomeBgCanvas } from "@/features/home/components/home-bg-canvas"
 import type { BracketSummary } from "@/features/home/components/home-bracket-cards"
+
+const HomeBgCanvas = dynamic(
+  () => import("@/features/home/components/home-bg-canvas").then((m) => m.HomeBgCanvas),
+  {
+    loading: () => null,
+  },
+)
 import { HomeBracketCards } from "@/features/home/components/home-bracket-cards"
 import { HomeClassGrid } from "@/features/home/components/home-class-grid"
 import { HomeHero } from "@/features/home/components/home-hero"
