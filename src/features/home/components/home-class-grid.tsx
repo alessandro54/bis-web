@@ -93,6 +93,9 @@ export function HomeClassGrid({ classes }: Props) {
             alt={cls.name}
             width={80}
             height={80}
+            loading="lazy"
+            decoding="async"
+            fetchPriority="low"
             className="size-14 rounded-xl opacity-70 transition-opacity group-hover:opacity-100 md:size-20"
           />
           <span
@@ -119,7 +122,7 @@ export function HomeClassGrid({ classes }: Props) {
   const secondRow = classes.slice(7)
 
   return (
-    <div>
+    <div className="cv-auto">
       <div className="mb-5 flex items-center gap-2">
         <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
           Select a Class
@@ -234,6 +237,9 @@ function SpecDropdown({ cls, color }: { cls: WowClassConfig; color: string }) {
               alt={spec.name}
               width={48}
               height={48}
+              loading="lazy"
+              decoding="async"
+              fetchPriority="low"
               className="block h-full w-full rounded-xl object-cover opacity-70 transition-opacity group-hover/spec:opacity-100"
             />
           </span>

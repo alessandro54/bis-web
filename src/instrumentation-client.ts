@@ -10,27 +10,47 @@ Sentry.init({
   enabled: process.env.NODE_ENV === "production",
   environment: process.env.NODE_ENV,
 
-  // Add optional integrations for additional features
-  integrations: [
-    Sentry.replayIntegration(),
-  ],
+  // No eager replay integration — load it lazily after first paint so the
+  // ~50KB chunk doesn't ship in the critical path.
+  integrations: [],
 
-  // Define how likely traces are sampled. Adjust this value in production, or use tracesSampler for greater control.
-  tracesSampleRate: 1,
-  // Enable logs to be sent to Sentry
+  // 10% of traces in prod is plenty for diagnostics; 100% inflated bundle
+  // and Sentry quota.
+  tracesSampleRate: 0.1,
   enableLogs: true,
 
-  // Define how likely Replay events are sampled.
-  // This sets the sample rate to be 10%. You may want this to be 100% while
-  // in development and sample at a lower rate in production
   replaysSessionSampleRate: 0.1,
-
-  // Define how likely Replay events are sampled when an error occurs.
   replaysOnErrorSampleRate: 1.0,
 
-  // Enable sending user PII (Personally Identifiable Information)
-  // https://docs.sentry.io/platforms/javascript/guides/nextjs/configuration/options/#sendDefaultPii
   sendDefaultPii: true,
 })
+
+// Lazy-load the Replay integration after the page is interactive.
+// This keeps Replay code out of the initial JS bundle.
+if (typeof window !== "undefined" && process.env.NODE_ENV === "production") {
+  const loadReplay = async () => {
+    try {
+      const replay = await Sentry.lazyLoadIntegration("replayIntegration")
+      Sentry.getClient()?.addIntegration(replay())
+    } catch {
+      // ignore — replay is best-effort
+    }
+  }
+  const ric = (
+    window as Window & {
+      requestIdleCallback?: (
+        cb: () => void,
+        opts?: {
+          timeout: number
+        },
+      ) => number
+    }
+  ).requestIdleCallback
+  if (ric)
+    ric(loadReplay, {
+      timeout: 4000,
+    })
+  else window.setTimeout(loadReplay, 2000)
+}
 
 export const onRouterTransitionStart = Sentry.captureRouterTransitionStart

@@ -45,6 +45,7 @@ export function HomeTopSpecsList({ specs }: Props) {
           <Link
             key={`${spec.specName}-${i}`}
             href={spec.specUrl}
+            prefetch={false}
             className="group flex flex-col gap-1.5 rounded-xl border border-black/10 bg-black/[0.04] px-5 py-3.5 transition-all hover:border-black/15 hover:bg-black/[0.07] dark:border-white/[0.05] dark:bg-white/[0.02] dark:hover:border-white/[0.1] dark:hover:bg-white/[0.05]"
             style={{
               borderLeft: `3px solid ${spec.color}`,

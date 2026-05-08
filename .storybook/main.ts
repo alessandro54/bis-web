@@ -25,10 +25,11 @@ const config: StorybookConfig = {
     config.resolve ??= {}
     config.resolve.alias = {
       ...(config.resolve.alias ?? {}),
-      "@": path.resolve(__dirname, "../src"),
       "next/navigation": path.resolve(__dirname, "./mocks/next-navigation.ts"),
       "next/image": path.resolve(__dirname, "./mocks/next-image.tsx"),
       "next/link": path.resolve(__dirname, "./mocks/next-link.tsx"),
+      "@/lib/fx/home-bg-webgl": path.resolve(__dirname, "./mocks/home-bg-webgl.ts"),
+      "@": path.resolve(__dirname, "../src"),
     }
     return config
   },
