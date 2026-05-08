@@ -47,6 +47,7 @@ export function HomeBracketCards({ brackets }: Props) {
             <Link
               key={b.bracket}
               href={b.href}
+              prefetch={false}
               className="group relative flex flex-col gap-1.5 overflow-hidden rounded-xl border px-5 py-3.5 transition-all"
               style={{
                 borderColor: `color-mix(in oklch, ${accentColor} 20%, transparent)`,
