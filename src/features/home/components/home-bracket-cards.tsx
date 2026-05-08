@@ -38,7 +38,7 @@ export function HomeBracketCards({ brackets }: Props) {
         </p>
         <div className="ml-2 h-px flex-1 bg-gradient-to-r from-border to-transparent" />
       </div>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="cv-auto grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {brackets.map((b) => {
           const accentColor = bracketColor(b.bracket) ?? glowColor
           const topWr = b.topSpecs[0]?.wrHat
@@ -111,6 +111,9 @@ export function HomeBracketCards({ brackets }: Props) {
                         width={16}
                         height={16}
                         className="rounded"
+                        loading="lazy"
+                        decoding="async"
+                        fetchPriority="low"
                         unoptimized
                       />
                     ) : (

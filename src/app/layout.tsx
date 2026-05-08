@@ -107,8 +107,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       className={`${inter.variable} ${jetbrainsMono.variable}`}
     >
       <head>
-        <link rel="preconnect" href="https://cdn.wowstats.gg" />
-        <link rel="preconnect" href="https://render.worldofwarcraft.com" />
+        <link rel="dns-prefetch" href="https://cdn.wowstats.gg" />
+        <link rel="dns-prefetch" href="https://render.worldofwarcraft.com" />
+        <link rel="preconnect" href="https://cdn.wowstats.gg" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://render.worldofwarcraft.com" crossOrigin="anonymous" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

@@ -96,3 +96,12 @@
     -webkit-user-select: text !important;
   }
 }
+
+@layer utilities {
+  /* Browser skips layout/paint of off-screen content.
+     Pair with contain-intrinsic-size to reserve space and avoid scroll jump. */
+  .cv-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 800px;
+  }
+}
