@@ -31,13 +31,13 @@
 
   /* Item-quality colors — same in both themes per WoW UI convention */
   --color-quality-poor: #9d9d9d;
-  --color-quality-common: #ffffff;
+  --color-quality-common: #fff;
   --color-quality-uncommon: #1eff00;
   --color-quality-rare: #0070dd;
   --color-quality-epic: #a335ee;
   --color-quality-legendary: #ff8000;
   --color-quality-artifact: #e6cc80;
-  --color-quality-heirloom: #00ccff;
+  --color-quality-heirloom: #0cf;
 
   /* Meta-tier accents — semantic states distinct from item qualities.
      Crafted = monochrome inverse-of-theme. The hue wheel is crowded
@@ -48,7 +48,7 @@
      a distinct "system tag" against every other palette element. */
   --color-tier-crafted-bg-light: #0f172a; /* slate-900 — strong contrast on light bg */
   --color-tier-crafted-bg-dark: #334155; /* slate-700 — muted, fits dark UI without glaring */
-  --color-tier-crafted-fg-light: #ffffff;
+  --color-tier-crafted-fg-light: #fff;
   --color-tier-crafted-fg-dark: #f1f5f9; /* slate-100 — readable on slate-700 */
   --color-tier-crafted-border: #0f172a;
 }
